@@ -2,6 +2,7 @@ package starter.stepdefinitions;
 
 
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,6 +11,8 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.path.json.JsonPath;
+
+import static net.serenitybdd.rest.RestRequests.given;
 import static org.hamcrest.Matchers.*;
 
 
@@ -63,6 +66,26 @@ public class UserSteps {
     @Then("the response should contain an access token")
     public void responseAccessToken() {
         response.then().body("token", not(emptyOrNullString()));
+    }
+
+    @Given("I set GET products endpoint")
+    public void getProductEndpoint() {
+        response = given().baseUri(baseURI).when().get("/products");
+    }
+
+    @When("I send GET HTTP request")
+    public void getHttpRequest() {
+        response = response.then().extract().response();
+    }
+
+    @Then("the response status code should be {int}")
+    public void responseCode(Integer statusCode) {
+        response.then().statusCode(statusCode);
+    }
+
+    @And("the response should contain products")
+    public void responseProducts() {
+        response.then().body("", not(empty()));
     }
 
 }

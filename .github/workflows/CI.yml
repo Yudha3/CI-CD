@@ -20,7 +20,7 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots package
   test:
-    name: Test API VI
+    name: Test API V
     needs: Build
     runs-on: ubuntu-latest
     steps:
